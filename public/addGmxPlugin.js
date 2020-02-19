@@ -41,7 +41,7 @@
 						node = null,
 						treePane = iconSidebar.setPane(menuId, { createTab: createTabFunction({
 								icon: 's-domrf-plugin',
-								hint: 'Legend'
+								hint: 'Фильтр'
 							})
 						}),
 						toggle = function(flag) {
