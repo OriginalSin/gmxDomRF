@@ -1318,7 +1318,7 @@ var filter = (function (exports) {
     	return child_ctx;
     }
 
-    // (274:4) {#each Object.keys(filterLayers) as k}
+    // (275:4) {#each Object.keys(filterLayers) as k}
     function create_each_block_2(ctx) {
     	let option;
     	let t_value = /*filterLayers*/ ctx[3][/*k*/ ctx[33]].title + "";
@@ -1351,7 +1351,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (281:0) {#if currLayer}
+    // (282:0) {#if currLayer}
     function create_if_block_1(ctx) {
     	let t0;
     	let div1;
@@ -1436,7 +1436,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (282:1) {#if !drawingChecked}
+    // (283:1) {#if !drawingChecked}
     function create_if_block_3(ctx) {
     	let each_1_anchor;
     	let each_value = Object.keys(/*currLayer*/ ctx[4].filters);
@@ -1492,7 +1492,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (289:2) {#if currLayer.filters[field].datalist}
+    // (290:2) {#if currLayer.filters[field].datalist}
     function create_if_block_4(ctx) {
     	let datalist;
     	let datalist_id_value;
@@ -1555,7 +1555,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (291:4) {#each currLayer.filters[field].datalist as pt}
+    // (292:4) {#each currLayer.filters[field].datalist as pt}
     function create_each_block_1(ctx) {
     	let option;
     	let option_value_value;
@@ -1582,7 +1582,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (284:1) {#each Object.keys(currLayer.filters) as field}
+    // (285:1) {#each Object.keys(currLayer.filters) as field}
     function create_each_block(ctx) {
     	let div2;
     	let div0;
@@ -1661,7 +1661,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (304:3) {#if currDrawingObj}
+    // (305:3) {#if currDrawingObj}
     function create_if_block_2(ctx) {
     	let span;
     	let t;
@@ -1685,7 +1685,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (319:0) {#if error}
+    // (320:0) {#if error}
     function create_if_block(ctx) {
     	let div;
     	let span;
@@ -1907,6 +1907,7 @@ var filter = (function (exports) {
 
     	const locale = window.language === "eng"
     	? {
+    			layerCreated: "Layer created",
     			createByFilter: "Create a layer by filter",
     			createExport: "Export to Excel",
     			drawOrSelect: "Нарисовать или выбрать объект по правой кнопке на вершине",
@@ -2176,7 +2177,7 @@ var filter = (function (exports) {
 
     			if (currDrawingObj) {
     				// w += '"S_FIN" = \'FS\'';
-    				w += " AND intersects([geomixergeojson], GeometryFromGeoJson('" + JSON.stringify(currDrawingObj.toGeoJSON()) + "', 4326))";
+    				w += "intersects([geomixergeojson], GeometryFromGeoJson('" + JSON.stringify(currDrawingObj.toGeoJSON()) + "', 4326))";
 
     				// pars.Title = 'Федеральные объекты недвижимости в пределах контура по слою "' + props.title + '"';
     				pars.Title = (locale.objectInGeometry || "Объекты в пределах контура по слою") + " \"" + props.title + "\"";
@@ -2191,7 +2192,7 @@ var filter = (function (exports) {
     			if (res.error) {
     				setHidden(res.error);
     			} else {
-    				setHidden("Слой создан");
+    				setHidden(locale.layerCreated || "Слой создан");
     				$$invalidate(9, filteredLayerID = res.content.properties.LayerID);
     			}
     		});

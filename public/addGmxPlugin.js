@@ -50,7 +50,7 @@
 							if (flag) {
 								if (!node) {
 									node = L.DomUtil.create('div', 'gmxDomRFViewCont');
-									var hworld = new gmxDomRF.App({
+									var hworld = new filter.App({
 										target: node,
 										data: {
 											// meta: true,		// фильтровать списки слоев по Meta

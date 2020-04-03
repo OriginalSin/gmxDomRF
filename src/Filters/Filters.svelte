@@ -9,6 +9,7 @@
 // const stateStorage = Utils.getState();
 let changedParams = {test: 23};
 const locale = window.language === 'eng' ? {
+	layerCreated: 'Layer created',
 	createByFilter: 'Create a layer by filter',
 	createExport: 'Export to Excel',
 	drawOrSelect: 'Нарисовать или выбрать объект по правой кнопке на вершине',
@@ -243,7 +244,7 @@ const createFilterLayer = (ev) => {
 		w = 'WHERE ';
 		if (currDrawingObj) {
 			// w += '"S_FIN" = \'FS\'';
-			w += ' AND intersects([geomixergeojson], GeometryFromGeoJson(\'' + JSON.stringify(currDrawingObj.toGeoJSON()) + '\', 4326))'
+			w += 'intersects([geomixergeojson], GeometryFromGeoJson(\'' + JSON.stringify(currDrawingObj.toGeoJSON()) + '\', 4326))'
 			// pars.Title = 'Федеральные объекты недвижимости в пределах контура по слою "' + props.title + '"';
 			pars.Title = (locale.objectInGeometry || 'Объекты в пределах контура по слою') + ' "' + props.title + '"';
 		} else if (alen) {
@@ -256,7 +257,7 @@ const createFilterLayer = (ev) => {
 		if (res.error) {
 			setHidden(res.error);
 		} else {
-			setHidden('Слой создан');
+			setHidden(locale.layerCreated || 'Слой создан');
 			filteredLayerID = res.content.properties.LayerID;
 		}
 	});
