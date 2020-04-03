@@ -4,7 +4,7 @@
 	window.nsGmx = window.nsGmx || {};
 
     var publicInterface = {
-        pluginName: 'domrf_1.0',
+        pluginName: 'filter_1.0',
         params: {},
 		map: null,		// текущая карта
         path: '',		// папка плагина

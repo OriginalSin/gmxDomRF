@@ -5,7 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 const eslint = require('rollup-plugin-eslint').eslint;
 
 const production = !process.env.ROLLUP_WATCH;
-const ver = 'domrf_1.0';
+const ver = 'filter_1.0';
 
 export default [
 {
@@ -13,7 +13,7 @@ export default [
 	output: {
 		sourcemap: true,
 		format: 'iife',
-		name: 'gmxDomRF',
+		name: 'filter',
 		file: 'public/' + ver + '.js'
 	},
 	plugins: [

@@ -8,6 +8,19 @@
 
 // const stateStorage = Utils.getState();
 let changedParams = {test: 23};
+const locale = window.language === 'eng' ? {
+	createByFilter: 'Create a layer by filter',
+	createExport: 'Export to Excel',
+	drawOrSelect: 'Нарисовать или выбрать объект по правой кнопке на вершине',
+	searchByGeom: 'Search for objects at the intersection with the contour (create a contour on the Geoportal)',
+	selectLayer: 'Choose Layer',
+	objectInGeometry: 'Objects within the outline by layer',
+	objectWith: 'Object with',
+	inLayer: 'in Layer',
+	needDraw: 'Need to draw a contour',
+	snap: 'Snap to filter',
+	error: 'Error'
+} : {};
 
 let error = null;
 let waitingIcon = null;
@@ -106,7 +119,7 @@ const changeLayer = (ev) => {
 				if (it.field) {
 					currLayer.filters[it.field].datalist = it.datalist;
 				} else {
-					error = 'Ошибка';
+					error = locale.error || 'Ошибка';
 				}
 			});
 			setHidden(error);
@@ -134,9 +147,8 @@ const privaz = (ev, dObj) => {
 
 let map = null; Store.leafletMap.subscribe(value => {
 	map = value;
-	map.gmxDrawing.contextmenu.insertItem({callback: privaz, text: 'Привязать к фильтру'}, 0, 'points');
+	map.gmxDrawing.contextmenu.insertItem({callback: privaz, text: locale.snap || 'Привязать к фильтру'}, 0, 'points');
 });
-
 let drawingChecked = false;
 const createDrawing = (ev) => {
 	drawingChecked = ev.target.checked;
@@ -184,7 +196,7 @@ const createExport = (ev) => {
 
 const createFilterLayer = (ev) => {
 	if (drawingChecked && !currDrawingObjArea) {
-		error = 'Необходимо нарисовать контур';
+		error = locale.needDraw || 'Необходимо нарисовать контур';
 		let dc = nsGmx.leafletMap.gmxControlsManager.get('drawing'),
 			ac = nsGmx.leafletMap.gmxControlsManager.get(dc.activeIcon || 'Polygon');
 		ac.setActive(false);
@@ -216,7 +228,8 @@ const createFilterLayer = (ev) => {
 			val = node.value;
 		if (val && node !== drawingButton) {
 			arr.push('"' + node.name + '" = \'' + val + '\'');
-			pars.Title = 'Объекты недвижимости собственника с ИНН "' + val + '" по слою "' + props.title + '"';
+			// pars.Title = 'Объекты недвижимости собственника с ИНН "' + val + '" по слою "' + props.title + '"';
+			pars.Title = (locale.objectWith || 'Объекты с') + ' "' + node.name + '" ' + val + ' ' + (locale.inLayer || 'по слою') + ' "' + props.title + '"';
 		}
 	}
 	// pars.Title = 'Фильтр ' + arr.join(', ') + ' по слою "' + props.title + '"';
@@ -229,9 +242,10 @@ const createFilterLayer = (ev) => {
 	if (currDrawingObj || alen) {
 		w = 'WHERE ';
 		if (currDrawingObj) {
-			w += '"S_FIN" = \'FS\'';
+			// w += '"S_FIN" = \'FS\'';
 			w += ' AND intersects([geomixergeojson], GeometryFromGeoJson(\'' + JSON.stringify(currDrawingObj.toGeoJSON()) + '\', 4326))'
-			pars.Title = 'Федеральные объекты недвижимости в пределах контура по слою "' + props.title + '"';
+			// pars.Title = 'Федеральные объекты недвижимости в пределах контура по слою "' + props.title + '"';
+			pars.Title = (locale.objectInGeometry || 'Объекты в пределах контура по слою') + ' "' + props.title + '"';
 		} else if (alen) {
 			w += '(' + arr.join(') AND (') + ')';
 		}
@@ -253,7 +267,7 @@ const createFilterLayer = (ev) => {
 
 <div class="sidebar-opened" bind:this={content}>
 	<div class="row hidden" bind:this={waitingIcon}>
-		<div class="title">Выбор слоя</div>
+		<div class="title">{locale.selectLayer || 'Выберите слой'}</div>
 		<div class="input">
 			<select on:change={changeLayer}>
 				<option value="" />
@@ -286,7 +300,7 @@ const createFilterLayer = (ev) => {
 
 	<div class="row">
 		<div class="checkbox">
-		   <input type="checkbox" name="checkboxG4" on:change="{createDrawing}" bind:this={drawingButton} id="checkboxG4" class="css-checkbox2" title="Нарисовать или выбрать объект по правой кнопке на вершине"/><label for="checkboxG4" class="css-label2 radGroup1">Поиск федеральных объектов недвижимости по пересечению с контуром (создайте контур на Геопортале)</label>
+		   <input type="checkbox" name="checkboxG4" on:change="{createDrawing}" bind:this={drawingButton} id="checkboxG4" class="css-checkbox2" title={locale.drawOrSelect || 'Нарисовать или выбрать объект по правой кнопке на вершине'} /><label for="checkboxG4" class="css-label2 radGroup1">{locale.searchByGeom || 'Поиск объектов по пересечению с контуром (создайте контур на Геопортале)'}</label>
 			{#if currDrawingObj}
 			<span class="currDrawingObjArea">{currDrawingObjArea}</span>
 			{/if}
@@ -295,10 +309,10 @@ const createFilterLayer = (ev) => {
 {/if}
 
 	<div class="bottom {currLayer ? '' : 'hidden'}">
-		<button class="button" on:click="{createFilterLayer}">Создать слой по фильтру</button>
+		<button class="button" on:click="{createFilterLayer}">{locale.createByFilter || 'Создать слой по фильтру'}</button>
 		<a href='load' download='features.geojson' target='download' onload="{setHidden}" class="exportHref {filteredLayerID ? '' : 'hidden'}">
 			<iframe name="download" title="" class="hidden" bind:this={iframe} on:focus={clearData} />
-			<button class="button" on:click="{createExport}">Экспорт в Excel</button>
+			<button class="button" on:click="{createExport}">{locale.createExport || 'Экспорт в Excel'}</button>
 		</a>
 	</div>
 
