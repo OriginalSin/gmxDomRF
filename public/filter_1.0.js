@@ -1318,7 +1318,7 @@ var filter = (function (exports) {
     	return child_ctx;
     }
 
-    // (275:4) {#each Object.keys(filterLayers) as k}
+    // (276:4) {#each Object.keys(filterLayers) as k}
     function create_each_block_2(ctx) {
     	let option;
     	let t_value = /*filterLayers*/ ctx[3][/*k*/ ctx[33]].title + "";
@@ -1351,7 +1351,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (282:0) {#if currLayer}
+    // (283:0) {#if currLayer}
     function create_if_block_1(ctx) {
     	let t0;
     	let div1;
@@ -1436,7 +1436,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (283:1) {#if !drawingChecked}
+    // (284:1) {#if !drawingChecked}
     function create_if_block_3(ctx) {
     	let each_1_anchor;
     	let each_value = Object.keys(/*currLayer*/ ctx[4].filters);
@@ -1492,7 +1492,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (290:2) {#if currLayer.filters[field].datalist}
+    // (291:2) {#if currLayer.filters[field].datalist}
     function create_if_block_4(ctx) {
     	let datalist;
     	let datalist_id_value;
@@ -1555,7 +1555,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (292:4) {#each currLayer.filters[field].datalist as pt}
+    // (293:4) {#each currLayer.filters[field].datalist as pt}
     function create_each_block_1(ctx) {
     	let option;
     	let option_value_value;
@@ -1582,7 +1582,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (285:1) {#each Object.keys(currLayer.filters) as field}
+    // (286:1) {#each Object.keys(currLayer.filters) as field}
     function create_each_block(ctx) {
     	let div2;
     	let div0;
@@ -1661,7 +1661,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (305:3) {#if currDrawingObj}
+    // (306:3) {#if currDrawingObj}
     function create_if_block_2(ctx) {
     	let span;
     	let t;
@@ -1685,7 +1685,7 @@ var filter = (function (exports) {
     	};
     }
 
-    // (320:0) {#if error}
+    // (321:0) {#if error}
     function create_if_block(ctx) {
     	let div;
     	let span;
@@ -1910,7 +1910,7 @@ var filter = (function (exports) {
     			layerCreated: "Layer created",
     			createByFilter: "Create a layer by filter",
     			createExport: "Export to Excel",
-    			drawOrSelect: "Нарисовать или выбрать объект по правой кнопке на вершине",
+    			drawOrSelect: "Draw or select an drawing object using the right button on the point",
     			searchByGeom: "Search for objects at the intersection with the contour (create a contour on the Geoportal)",
     			selectLayer: "Choose Layer",
     			objectInGeometry: "Objects within the outline by layer",
@@ -1932,7 +1932,8 @@ var filter = (function (exports) {
     			_gmx = layer._gmx,
     			props = layer.getGmxProperties(),
     			meta = props.MetaProperties,
-    			promiseArr = [];
+    			promiseArr = [],
+    			sortMe = arr => arr.sort((a, b) => a.value - b.value);
 
     		for (var k in meta) {
     			if (k !== "filter") {
@@ -1951,7 +1952,7 @@ var filter = (function (exports) {
     							//f.datalist = res.unique;
     							return {
     								field: json.queue.params.column,
-    								datalist: res.unique
+    								datalist: sortMe(res.unique)
     							};
     						}
 

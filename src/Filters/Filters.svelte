@@ -12,7 +12,7 @@ const locale = window.language === 'eng' ? {
 	layerCreated: 'Layer created',
 	createByFilter: 'Create a layer by filter',
 	createExport: 'Export to Excel',
-	drawOrSelect: 'Нарисовать или выбрать объект по правой кнопке на вершине',
+	drawOrSelect: 'Draw or select an drawing object using the right button on the point',
 	searchByGeom: 'Search for objects at the intersection with the contour (create a contour on the Geoportal)',
 	selectLayer: 'Choose Layer',
 	objectInGeometry: 'Objects within the outline by layer',
@@ -34,7 +34,8 @@ const getColumnStat = (id) => {
 		props = layer.getGmxProperties(),
 		meta = props.MetaProperties,
 		out = {filters: []},
-		promiseArr = [];
+		promiseArr = [],
+		sortMe = (arr) => arr.sort((a, b) => a.value - b.value);
 
 	for (var k in meta) {
 		if (k !== 'filter') {
@@ -49,7 +50,7 @@ const getColumnStat = (id) => {
 						let res = json.res.Result;
 						if (res && res.unique) {
 							//f.datalist = res.unique;
-							return {field: json.queue.params.column, datalist: res.unique};
+							return {field: json.queue.params.column, datalist: sortMe(res.unique)};
 						}
 						return null;
 					}));
